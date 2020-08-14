@@ -30,12 +30,16 @@ app.use(bp.urlencoded({extended: true}))
 
 //importing routers
 const users = require('./Routers/Users')
+const core = require('./Routers/Core')
+const notification = require('./Routers/Notification')
 
 //using routers
 app.use('/users', users)
+app.use('/core', core)
+app.use('/notification', notification)
 
 //port
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 
 app.listen(port, ()=>{
   console.log(`server started on port ${port}`)

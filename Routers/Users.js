@@ -4,7 +4,7 @@ const admin = require('firebase-admin')
 const db = admin.firestore()
 
 const {encrypt, checkEncryption} = require('../helpers/encryption.js')
-const {getCollection, addToCollection} = require('../helpers/firebase')
+const {getCollection, addToCollection, deleteFromCollection} = require('../helpers/firebase')
 
 router.post("/signin", async (req, res)=>{
   const user = { ...req.body }
@@ -61,6 +61,16 @@ router.post("/signup", async (req, res)=>{
     return res.status(200).send({})
   } else {
     return res.status(401).send(addUser)
+  }
+})
+
+router.post("/delete", async (req, res)=>{
+  const {email} = req.body
+  let stat = await deleteFromCollection(email, 'email', 'users')
+  if (stat) {
+    res.status(200).send({})
+  } else {
+    res.status(404).send({error: 'user not found!'})
   }
 })
 

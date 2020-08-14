@@ -20,4 +20,21 @@ const addToCollection = async (newObj, Collection) => {
   return status
 }
 
-module.exports = ({getCollection, addToCollection})
+const deleteFromCollection = async (prop, propName, Collection) => {
+  let stat = false;
+  var query = await db
+    .collection(Collection)
+    .get()
+
+  query.docs.map(_ => {
+    let data = _.data()
+    if (data[propName] === prop) {
+      _.ref.delete();
+      stat = true
+    }
+  })
+  
+  return stat
+}
+
+module.exports = ({getCollection, addToCollection, deleteFromCollection})
