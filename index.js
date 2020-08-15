@@ -31,10 +31,14 @@ app.use(bp.urlencoded({extended: true}))
 //importing routers
 const users = require('./Routers/Users')
 const core = require('./Routers/Core')
+const redcross = require('./Routers/RedCross')
+const bloodrequest = require('./Routers/BloodRequest')
 
 //using routers
 app.use('/users', users)
 app.use('/core', core)
+app.use('/redcross', redcross)
+app.use('/bloodrequest', bloodrequest)
 
 //port
 const port = process.env.PORT || 3001

@@ -21,15 +21,23 @@ router.post("/signin", async (req, res)=>{
   }
 
   //check password
-  if (theUser) { //means there is no email found
+  if (theUser) { 
     if ((await checkEncryption(user.password, theUser.password))) {
       delete theUser.password
       return res.status(200).send(theUser)
     } else {
-      return res.status(401).send({error: 'password incorrect'})
+      return res.status(401).send({
+        error: {
+          props: 'password',
+          msg: 'Password incorrect'
+        }
+      })
     }
   } else {
-    return res.status(401).send({error: 'email not found'})
+    return res.status(401).send({error: {
+      props: 'email',
+      msg: 'Email not found'
+    }})
   }
 
 })
@@ -42,12 +50,22 @@ router.post("/signup", async (req, res)=>{
 
   for (let _ of data) {
     if (_.email === newUser.email) {
-      return res.status(400).send({error: "Email is taken!"})
+      return res.status(400).send({error: {
+          props: 'email',
+          msg: 'Email is already registered'
+        }})
     }
   }
-
-  //encrypt password
-  newUser.password = await encrypt(newUser.password)
+  
+  try {
+    //encrypt password
+    newUser.password = await encrypt(newUser.password) 
+  } catch (e) {
+    return res.status(400).send({error: {
+          props: 'password',
+          msg: 'No password given!'
+        }})
+  }
 
   //adding user
   let addUser;
@@ -60,7 +78,10 @@ router.post("/signup", async (req, res)=>{
   if (!(addUser.error)) {
     return res.status(200).send({})
   } else {
-    return res.status(401).send(addUser)
+    return res.status(401).send({error: {
+      props: 'server',
+      msg: 'user not added'
+    }})
   }
 })
 
@@ -70,8 +91,15 @@ router.post("/delete", async (req, res)=>{
   if (stat) {
     res.status(200).send({})
   } else {
-    res.status(404).send({error: 'user not found!'})
+    res.status(404).send({error: {
+      props: 'user',
+      msg: 'user not found'
+    }})
   }
+})
+
+router.post("/test", (req, res) => {
+  res.status(200).send({})
 })
 
 module.exports = router
