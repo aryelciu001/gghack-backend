@@ -84,6 +84,10 @@ let redCross = [
   }
 ]
 
+r.get("/", (req, res)=>{
+    return await getCollection('bloodrequest')
+})
+
 r.post("/ask", (req, res)=>{
   //location, bloodtype, rhesus, quantity
   let request = { ...req.body }
