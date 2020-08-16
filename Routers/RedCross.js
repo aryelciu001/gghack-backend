@@ -55,7 +55,7 @@ let redCross = [
       }
     }
   },{
-    name: 'PMI Medan',
+    name: 'PMI Bandung',
     tel: "+6222589 1313",
     email: "admin@pmikabbandung.or.id",
     city: 'bandung',
