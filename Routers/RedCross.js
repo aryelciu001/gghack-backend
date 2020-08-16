@@ -114,4 +114,12 @@ r.get('/:city', (req, res) => {
   res.send(nearRedCross)
 })
 
+r.get('/', (req, res) => {
+
+  //filter the list so we show
+  //nearby PMI
+
+  res.send(redCross)
+})
+
 module.exports = r
