@@ -84,7 +84,7 @@ let redCross = [
   }
 ]
 
-r.get("/", (req, res)=>{
+r.get("/", async (req, res)=>{
     return await getCollection('bloodrequest')
 })
 
@@ -110,7 +110,7 @@ r.post("/ask", (req, res)=>{
 })
 
 r.post("/request", async (req, res)=>{
-  //location, bloodtype, rhesus, quantity
+  //location, bloodtype, rhesus, quantity, lat, long
   let request = { ...req.body }
   let required = ['location', 'bloodType', 'quantity', 'rhesus', "contactName", "contactPhone", "title", "desc"]
   for (let props of required) {
