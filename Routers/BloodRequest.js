@@ -85,7 +85,11 @@ let redCross = [
 ]
 
 r.get("/", async (req, res)=>{
-    return await getCollection('bloodrequest')
+    try {
+      res.send( await getCollection('bloodrequest'))
+    } catch (e) {
+      res.send(400).status(e)
+    }
 })
 
 r.post("/ask", (req, res)=>{
